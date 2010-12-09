@@ -1,9 +1,59 @@
 = rspec-set
 
-Description goes here.
+<tt>#set</tt> is a little helper for RSpec to speed-up your specs.
+
+<tt>#set</tt> can be used as a replacement of <tt>#let</tt>: <tt>#set</tt> will create the resource <tt>before(:all)</tt> your examples and will reload the resource <tt>before(:each)</tt> example.
+
+<tt>#let</tt> on the other hand creates the resource for every single example.
+
+You can drastically improve the time spent to run your specs. On an application with 3000 examples we decreased the specs duration by 70%!
+
+== Usage
+
+The following code will create a flight before running the examples and reload the flight from the DB before each example.
+
+  require 'spec_helper'
+
+  describe Flight do
+    set(:flight) do
+      Flight.create!
+    end
+
+    it "should be cancellable" do
+      flight.cancel
+      flight.should be_cancelled
+    end
+
+    it "should be delayable" do
+      flight.delay
+      flight.should be_delayed
+    end
+  end
+
+=== How does that work?
+
+RSpec wraps each example in an SQL transaction which gets rolled back at the end of each example.
+
+<tt>#set</tt> creates a flight once before running any example. Each example uses this flight and changes its state. Since RSpec rolls back the SQL transaction, the flight gets back to its initial state before each example. <tt>#set</tt> takes care of reloading the flight from the DB before each example. Examples won't affect each others then.
+
+== Notes
+
+* <tt>#set</tt> works only with ActiveRecord objects saved to the DB so far.
+* The record created by <tt>#set</tt> won't be deleted from the database. I encourage you to use DatabaseCleaner with the <tt>:truncation</tt> strategy to clean up your database. So far in RSpec 2.0, <tt>before(:all)</tt> runs before all describe/context blocks while <tt>after(:all)</tt> runs after every single describe/context/it blocks. Just make sure that you call <tt>DatabaseCleaner.clean</tt> in a <tt>before(:all)</tt> or <tt>after(:suite)</tt> then. :)
+* <tt>#set</tt> does not handle multi-level transactions.
+* You will have to call <tt>DatabaseCleaner.clean</tt> <tt>before(:all)</tt> specs which rely on having an empty database. <tt>#set</tt> don't clean the database for you.
+
+== TODO
+
+* add cukes
+* support non active record objects
+* support non saved active record objects
+* make <tt>before(:all) running in a transaction - See: http://rhnh.net/2010/10/06/transactional-before-all-with-rspec-and-datamapper
+* support multi-level transactions
+
 
 == Contributing to rspec-set
- 
+
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
 * Fork the project
