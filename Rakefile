@@ -55,3 +55,12 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
+
+# task :setup
+# git clone rspec-rails in /tmp
+# in /tmp run rake clobber generate etc
+#
+# task :default
+# run cukes
+#
+# features/support/env.rb should load tmp/rspec-rails...../env.rb :)
