@@ -1,6 +1,6 @@
 module RSpec
   module Core
-    module Set 
+    module Set
       module ClassMethods
         # Set @variable_name in a before(:all) block and give access to it
         # via let(:variable_name)
@@ -20,8 +20,16 @@ module RSpec
          
           let(variable_name) do 
             self.class.send(:class_variable_get, "@@#{variable_name}".to_sym).tap do |i|
-              if i.respond_to?(:new_record?) && i.respond_to?(:reload)
-                i.reload unless i.new_record?
+              if i.is_a?(ActiveRecord::Base)
+                if i.destroyed?
+                  i.class.find(i.id)
+                elsif !i.new_record?
+                  i.reload
+                else
+                  i # do nothing
+                end
+              else
+                warn "rspec-set works with ActiveRecord::Base object"
               end
             end
           end
@@ -35,7 +43,7 @@ module RSpec
     end # Set
 
     class ExampleGroup
-      include Set 
+      include Set
     end # ExampleGroup
 
   end # Core
