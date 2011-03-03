@@ -11,9 +11,6 @@ Feature: set
       require "spec_helper"
 
       describe Widget do
-        # #set creates store the model object in the db before all example
-        # The model object will be reloaded before each example.
-        # This take advantage of running examples in transactions
         set(:widget) { Widget.create!(:name => 'widget_1') }
 
         subject { widget }

@@ -17,7 +17,7 @@ module RSpec
           before(:all) do
             self.class.send(:class_variable_set, "@@#{variable_name}".to_sym, instance_eval(&block))
           end
-         
+
           let(variable_name) do 
             self.class.send(:class_variable_get, "@@#{variable_name}".to_sym).tap do |i|
               if i.is_a?(ActiveRecord::Base)

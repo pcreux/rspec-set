@@ -1,22 +1,28 @@
 = rspec-set
 
-<tt>#set</tt> is a little helper for RSpec to speed-up your specs.
+<tt>#set</tt> is a little RSpec helper that speeds-up drastically integration tests that relies on active record objects.
+
+<tt>#set</tt> takes advantage of the fact that RSpec rails runs each examples in SQL transactions.
+Since all the changes made to the database are rolledback after each example we can create an active record object before all examples
+and use it in each examples without any collisions as long as we reload the object from the database before each example.
 
 <tt>#set</tt> can be used as a replacement of <tt>#let</tt>: <tt>#set</tt> will create the resource <tt>before(:all)</tt> your examples and will reload the resource <tt>before(:each)</tt> example.
-
-<tt>#let</tt> on the other hand creates the resource for every single example.
 
 You can drastically improve the time spent to run your specs. On an application with 3000 examples we decreased the specs duration by 70%!
 
 == Usage
 
-The following code will create a flight before running the examples and reload the flight from the DB before each example.
+The following code will create one (and only one!) flight before running the examples and reload the flight from the DB before each example.
 
   require 'spec_helper'
 
   describe Flight do
     set(:flight) do
       Flight.create!
+    end
+
+    it "should be on_time" do
+      flight.should be_on_time
     end
 
     it "should be cancellable" do
@@ -36,6 +42,8 @@ RSpec wraps each example in an SQL transaction which gets rolled back at the end
 
 <tt>#set</tt> creates a flight once before running any example. Each example uses this flight and changes its state. Since RSpec rolls back the SQL transaction, the flight gets back to its initial state before each example. <tt>#set</tt> takes care of reloading the flight from the DB before each example. Examples won't affect each others then.
 
+You can find more examples in https://github.com/pcreux/rspec-set/blob/master/features/lib/rspec-set.feature
+
 == Notes
 
 * <tt>#set</tt> works only with ActiveRecord objects saved to the DB so far.
@@ -43,13 +51,19 @@ RSpec wraps each example in an SQL transaction which gets rolled back at the end
 * <tt>#set</tt> does not handle multi-level transactions.
 * You will have to call <tt>DatabaseCleaner.clean</tt> <tt>before(:all)</tt> specs which rely on having an empty database. <tt>#set</tt> don't clean the database for you.
 
+== Install
+
+Add rspec-set to you Gemfile
+
+  gem 'rspec-set'
+
+and replace calls to <tt>#let</tt> creating active record objects by <tt>#set</tt>.
+
 == TODO
 
-* add cukes
-* support non active record objects
-* support non saved active record objects
+* support non saved active record objects (changes made to non saved active record objects won't be rolledback after each example)
 * make <tt>before(:all) running in a transaction - See: http://rhnh.net/2010/10/06/transactional-before-all-with-rspec-and-datamapper
-* support multi-level transactions
+* support multi-level transactions (combinations of subcontext with set and changes made in before(:all) leads to weird behaviour sometimes
 
 
 == Contributing to rspec-set
