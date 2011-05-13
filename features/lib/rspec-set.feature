@@ -5,7 +5,7 @@ Feature: set
   I want to use #set that store the data before all example and
   reload active record objects before each examples
 
-  Scenario: Examples run in transactions
+  Scenario: Examples run in transactions (no side effects between examples)
     Given a file named "spec/models/widget_spec.rb" with:
       """
       require "spec_helper"
@@ -112,3 +112,7 @@ Feature: set
       """
     When I run "rspec spec/models/widget_spec.rb"
     Then the examples should all pass
+
+  Scenario: I can update a model in a before block
+
+  Scenario: I can use a set model in another set definition

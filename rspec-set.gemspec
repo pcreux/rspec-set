@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Philippe Creux"]
-  s.date = %q{2010-11-27}
+  s.date = %q{2011-02-04}
   s.description = %q{set() is a helper for RSpec which setup active record
     objects before all tests and restore them to there original state 
     before each test}
@@ -21,11 +21,13 @@ Gem::Specification.new do |s|
   s.files = [
     ".document",
     "Gemfile",
+    "Gemfile.lock",
     "LICENSE.txt",
     "README.rdoc",
     "Rakefile",
     "VERSION",
-    "lib/rspec-set.rb"
+    "lib/rspec-set.rb",
+    "rspec-set.gemspec"
   ]
   s.homepage = %q{http://github.com/pcreux/rspec-set}
   s.licenses = ["MIT"]
