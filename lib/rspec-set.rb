@@ -1,3 +1,5 @@
+require "version"
+
 module RSpec
   module Core
     module Set
