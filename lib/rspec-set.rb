@@ -35,7 +35,7 @@ module RSpec
             end
           end
 
-          let(variable_name) do 
+          define_method(variable_name) do
             self.class.send(:class_variable_get, "@@__rspec_set_#{variable_name}".to_sym)
           end
         end # set()
