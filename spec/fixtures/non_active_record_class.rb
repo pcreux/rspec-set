@@ -1,0 +1,2 @@
+class NonActiveRecordClass
+end
