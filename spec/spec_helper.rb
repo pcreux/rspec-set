@@ -56,3 +56,16 @@ def destroy_database
     db.execute("DROP TABLE #{table}")
   end
 end
+
+def setup_for_error_checking(klass)
+  before do
+    @orig_stderr = $stderr
+    $stderr = StringIO.new
+  end
+
+  set(:my_object) { klass.create(name: 'Test Name') }
+
+  after do
+    $stderr = @orig_stderr
+  end
+end
