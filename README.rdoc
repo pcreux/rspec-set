@@ -1,4 +1,4 @@
-= rspec-set
+= rspec-set {<img src="https://travis-ci.org/pcreux/rspec-set.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/pcreux/rspec-set]
 
 <tt>#set</tt> is a little RSpec helper that speeds-up drastically integration tests that relies on active record objects.
 
