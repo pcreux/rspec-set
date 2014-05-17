@@ -26,8 +26,8 @@ module RSpec
 
             if model.is_a?(ActiveRecord::Base)
               if model.destroyed?
-                # Relig destroyed model
-                model.class.find(i.id)
+                # Reload destroyed model
+                model.class.find(model.id)
               elsif !model.new_record?
                 # Reload saved model
                 model.reload
