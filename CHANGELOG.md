@@ -1,5 +1,9 @@
 # rspec-set CHANGELOG
 
+## 0.1.2
+
+* fix reload destroy models by [@pcreux][]
+
 ## 0.1.1
 
 * add test suite by [@loganhasson][] (PR [#4][])
@@ -23,3 +27,4 @@
 [#5]: https://github.com/pcreux/rspec-set/issues/5
 [@21croissants]: https://github.com/21croissants
 [@loganhasson]: https://github.com/loganhasson
+[@pcreux]: https://github.com/pcreux
