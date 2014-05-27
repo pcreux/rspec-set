@@ -35,7 +35,7 @@ describe 'with a destroyed ActiveRecord model' do
     ActiveRecordClassExample.create(name: 'Alfred', age: 77)
   end
 
-  it 'allows us to dstroy a model' do
+  it 'allows us to destroy a model' do
     my_destroyed_object.destroy
     expect(
       ActiveRecordClassExample.find_by(id: my_destroyed_object.id)
@@ -43,7 +43,7 @@ describe 'with a destroyed ActiveRecord model' do
   end
 
   it 'reloads a destroyed model' do
-    expect(my_destroyed_object.name).to eq('Alfred')
+    expect(my_destroyed_object.reload.name).to eq('Alfred')
   end
 end
 

@@ -26,8 +26,8 @@ module RSpec
 
             if model.is_a?(ActiveRecord::Base)
               if model.destroyed?
-                # Reload destroyed model
-                model.class.find(model.id)
+                # Reset destroyed model
+                self.class.send(:class_variable_set, "@@__rspec_set_#{variable_name}".to_sym, model.class.find(model.id))
               elsif !model.new_record?
                 # Reload saved model
                 model.reload
