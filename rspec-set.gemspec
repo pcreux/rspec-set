@@ -5,7 +5,7 @@ require 'version'
 
 Gem::Specification.new do |spec|
   spec.name          = "rspec-set"
-  spec.version       = Rspec::Set::VERSION
+  spec.version       = Rspec::RSpecSet::VERSION
   spec.authors       = ["Philippe Creux"]
   spec.email         = ["pcreux@gmail.com"]
   spec.description   = "#set(), speed-up your specs"

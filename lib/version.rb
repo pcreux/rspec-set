@@ -1,5 +1,5 @@
 module Rspec
-  module Set
+  module RSpecSet
     VERSION = "0.1.2"
   end
 end
