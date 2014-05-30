@@ -2,7 +2,7 @@ require "version"
 
 module RSpec
   module Core
-    module Set
+    module RSpecSet
       module ClassMethods
         # Set @variable_name in a before(:all) block and give access to it
         # via let(:variable_name)
@@ -47,10 +47,10 @@ module RSpec
       def self.included(mod) # :nodoc:
         mod.extend ClassMethods
       end
-    end # Set
+    end # RSpecSet
 
     class ExampleGroup
-      include Set
+      include RSpecSet
     end # ExampleGroup
 
   end # Core
